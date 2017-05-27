@@ -43,12 +43,14 @@ This paper proposes the first real-time style transfer algorithm that can transf
 
 ## Dependencies
 * [torch7](https://github.com/torch/torch7)
-* [unsup](https://github.com/koraykv/unsup)
 
 Optionally:
 * CUDA and cuDNN
 * [cunn](https://github.com/torch/cunn)
 * [torch.cudnn](https://github.com/soumith/cudnn.torch)
+* [unsup](https://github.com/koraykv/unsup) (for color-preserved style transfer)
+* [ffmpeg](https://ffmpeg.org/) (for video)
+
 
 ## Download
 ```
@@ -129,9 +131,17 @@ th test.lua -content input/content/blonde_girl.jpg -style input/style/woman_in_p
   <img src='examples/spatial_control.jpg' height="300px">
 </p>
 
+### Video Stylization
+Use `styVid.sh` to process videos, example usage:
+```
+th testVid.lua -contentDir videoprocessing/${filename} -style ${styleimage} -outputDir videoprocessing/${filename}-${stylename}
+```
+This generates 1 mp4 for each image present in ```style-dir-path```. Other video formats are also supported. To change other parameters like alpha, edit line 53 of ```styVid.sh```. An example video with some results can be seen [here](https://www.youtube.com/watch?v=vVkufidT0fc&t=1s) on youtube.
+
 ## Training
 
-Coming soon.
+1. Download [MSCOCO images](http://mscoco.org/dataset/#download) and [Wikiart images](https://www.kaggle.com/c/painter-by-numbers).
+2. Use `th train.lua -contentDir COCO_TRAIN_DIR -styleDir WIKIART_TRAIN_DIR` to start training with default hyperparameters. Replace `COCO_TRAIN_DIR` with the path to COCO training images and `WIKIART_TRAIN_DIR` with the path to Wikiart training images. The default hyperparameters are the same as the ones used to train `decoder-content-similar.t7`. To reproduce the results from `decoder.t7`, add `-styleWeight 1e-1`.
 
 ## Citation
 
@@ -152,9 +162,11 @@ This project is inspired by many existing style transfer methods and their open-
 * [Perceptual Losses for Real-Time Style Transfer and Super-Resolution](https://arxiv.org/abs/1603.08155), [Johnson](http://cs.stanford.edu/people/jcjohns/) et al. [[code](https://github.com/jcjohnson/fast-neural-style)]
 * [Texture Networks: Feed-forward Synthesis of Textures and Stylized Images](https://arxiv.org/abs/1603.03417), [Ulyanov](https://dmitryulyanov.github.io/about/) et al. [[code](https://github.com/DmitryUlyanov/texture_nets)]
 * [Improved Texture Networks: Maximizing Quality and Diversity in Feed-forward Stylization and Texture Synthesis](https://arxiv.org/abs/1701.02096), [Ulyanov](https://dmitryulyanov.github.io/about/) et al. [[code](https://github.com/DmitryUlyanov/texture_nets)]
+* [A Learned Representation For Artistic Style](https://openreview.net/forum?id=BJO-BuT1g&noteId=BJO-BuT1g), [Dumoulin](http://vdumoulin.github.io/) et al. [[code](https://github.com/tensorflow/magenta/tree/master/magenta/models/image_stylization)]
 * [Fast Patch-based Style Transfer of Arbitrary Style](https://arxiv.org/abs/1612.04337), Chen and [Schmidt](http://www.cs.ubc.ca/~schmidtm/) [[code](https://github.com/rtqichen/style-swap)]
 * [Controlling Perceptual Factors in Neural Style Transfer](https://arxiv.org/abs/1611.07865), Gatys et al. [[code](https://github.com/leongatys/NeuralImageSynthesis)]
+* [Artistic style transfer for videos](https://arxiv.org/abs/1604.08610), Ruder et al. [[code](https://github.com/manuelruder/artistic-videos)]
 
 ## Contact
 
-If you have any questions or suggestions about the code or the paper, feel free to reach me (xh258@cornell.edu).
+If you have any questions or suggestions about the paper, feel free to reach me (xh258@cornell.edu).
